@@ -40,7 +40,8 @@ def create_tables():
 
         cursor.execute("""
         CREATE TABLE Driver (
-            number INT PRIMARY KEY,
+            id INT PRIMARY KEY,
+            number INT,
             name VARCHAR(100),
             nationality VARCHAR(50),
             team VARCHAR(50),
@@ -69,7 +70,7 @@ def create_tables():
             is_fastest_lap BOOLEAN,
             start_place INT,
             PRIMARY KEY (driver_id, circuit_id, race_date),
-            FOREIGN KEY (driver_id) REFERENCES Driver(number),
+            FOREIGN KEY (driver_id) REFERENCES Driver(id),
             FOREIGN KEY (circuit_id) REFERENCES Circuit(id)
         );
         """)
