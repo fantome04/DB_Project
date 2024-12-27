@@ -1,0 +1,5 @@
+DB_USER = "username"
+DB_PASSWORD = "password"
+DB_HOST = "localhost"
+DB_PORT = "8080"
+DB_NAME = "f1_db"
