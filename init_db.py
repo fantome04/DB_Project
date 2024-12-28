@@ -1,11 +1,6 @@
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-
-DB_NAME = "f1_db"
-DB_USER = "username"
-DB_PASSWORD = "password"
-DB_HOST = "localhost"
-DB_PORT = "8080"
+from config import DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT
 
 def create_database():
     try:
