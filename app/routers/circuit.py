@@ -15,7 +15,7 @@ def get_db():
 
 @router.post("/", response_model=schemas.Circuit)
 def create_circuit(circuit: schemas.CircuitCreate, db: Session = Depends(get_db)):
-    existing_circuit = crud.get_circuit_by_name(db, circuit.name)
+    existing_circuit = crud.get_circuit(db, circuit.id)
     if existing_circuit:
         raise HTTPException(status_code=400, detail=f"Circuit with name '{circuit.name}' already exists.")
     

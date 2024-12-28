@@ -15,7 +15,7 @@ def get_db():
 
 @router.post("/", response_model=schemas.Driver)
 def create_driver(driver: schemas.DriverCreate, db: Session = Depends(get_db)):
-    existing_driver = crud.get_driver_by_number(db, driver.number)
+    existing_driver = crud.get_driver(db, driver.id)
     if existing_driver:
         raise HTTPException(status_code=400, detail=f"Driver with number {driver.number} already exists.")
     
