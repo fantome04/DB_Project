@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
 from sqlalchemy.sql import func
+import sqlalchemy as sa
 
 def create_driver(db: Session, driver: schemas.DriverCreate):
     db_driver = models.Driver(**driver.dict())
@@ -9,8 +10,15 @@ def create_driver(db: Session, driver: schemas.DriverCreate):
     db.refresh(db_driver)
     return db_driver
 
+
 def get_driver(db: Session, driver_id: int):
     return db.query(models.Driver).filter(models.Driver.id == driver_id).first()
+
+
+def search_drivers_by_details(db: Session, pattern: str):
+    query = f"%{pattern}%"
+    return db.query(models.Driver).filter(models.Driver.details.cast(sa.Text).ilike(query)).all()
+
 
 def filter_drivers(db: Session, nationality: str = None, team: str = None):
     query = db.query(models.Driver)
