@@ -14,15 +14,15 @@ def get_db():
         db.close()
 
 @router.get("/drivers/filter", tags=["drivers"])
-def filter_drivers(nationality: str = None, team: str = None, db: Session = Depends(get_db)):
-    drivers = crud.filter_drivers(db, nationality=nationality, team=team)
+def filter_drivers(nationality: str = None, team: str = None, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    drivers = crud.filter_drivers(db, nationality=nationality, team=team, skip=skip, limit=limit)
     if not drivers:
         raise HTTPException(status_code=404, detail="No drivers found with the given criteria.")
     return drivers
 
 @router.get("/races/details", response_model=list[schemas.RaceDetails], tags=["races"])
-def get_race_details(db: Session = Depends(get_db)):
-    results = crud.get_race_details(db)
+def get_race_details(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    results = crud.get_race_details(db, skip=skip, limit=limit)
     if not results:
         raise HTTPException(status_code=404, detail="No results found with the given criteria.")
     return results
@@ -35,15 +35,15 @@ def update_race_points(place: int, db: Session = Depends(get_db)):
     return result
 
 @router.get("/drivers/total-points", response_model=list[schemas.DriverPoints], tags=["drivers"])
-def get_driver_points(db: Session = Depends(get_db)):
-    results = crud.get_driver_points(db)
+def get_driver_points(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    results = crud.get_driver_points(db, skip=skip, limit=limit)
     if not results:
         raise HTTPException(status_code=404, detail="No results found with the given criteria.")
     return [{"driver_id": driver_id, "total_points": total_points} for driver_id, total_points in results]
 
 @router.get("/circuits/sorted", response_model=list[schemas.Circuit], tags=["circuits"])
-def get_sorted_circuits(db: Session = Depends(get_db)):
-    results = crud.get_sorted_circuits(db)
+def get_sorted_circuits(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    results = crud.get_sorted_circuits(db, skip=skip, limit=limit)
     if not results:
         raise HTTPException(status_code=404, detail="No results found with the given criteria.")
     return results

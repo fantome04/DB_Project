@@ -22,22 +22,22 @@ def create_driver(driver: schemas.DriverCreate, db: Session = Depends(get_db)):
     return crud.create_driver(db, driver)
 
 @router.get("/search", response_model=list[schemas.Driver])
-def search_drivers(details_pattern: str, db: Session = Depends(get_db)):
-    results = crud.search_drivers_by_details(db, details_pattern)
+def search_drivers(details_pattern: str, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    results = crud.search_drivers_by_details(db, details_pattern, skip=skip, limit=limit)
     if not results:
         raise HTTPException(status_code=404, detail="No drivers found matching the pattern.")
     return results
 
 
 @router.get("/", response_model=list[schemas.Driver])
-def read_drivers(db: Session = Depends(get_db)):
-    drivers = crud.get_drivers(db)
+def read_drivers(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    drivers = crud.get_drivers(db, skip=skip, limit=limit)
     return drivers
 
 
 @router.get("/{driver_id}", response_model=schemas.Driver)
-def read_driver(driver_id: int, db: Session = Depends(get_db)):
-    driver = crud.get_driver(db, driver_id)
+def read_driver(driver_id: int, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    driver = crud.get_driver(db, driver_id, skip=skip, limit=limit)
     if not driver:
         raise HTTPException(status_code=404, detail="Driver not found")
     return driver
