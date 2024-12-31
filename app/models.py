@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, DECIMAL
+from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, DECIMAL, JSON
 from .database import Base
 
 class Driver(Base):
@@ -10,7 +10,7 @@ class Driver(Base):
     nationality = Column(String(50))
     team = Column(String(50))
     dob = Column(Date)
-
+    details = Column(JSON, nullable=True)
 
 class Circuit(Base):
     __tablename__ = "circuit"

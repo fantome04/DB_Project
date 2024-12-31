@@ -9,6 +9,7 @@ class DriverBase(BaseModel):
     nationality: str
     team: str
     dob: date
+    details: Optional[dict]
 
 class DriverCreate(DriverBase):
     pass
@@ -75,7 +76,6 @@ class RaceDetails(BaseModel):
     circuit_name: str
     place: int
     points: int
-
 
 
 class Race(RaceBase):

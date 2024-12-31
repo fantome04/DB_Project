@@ -1,7 +1,6 @@
 import requests
 from faker import Faker
 import random
-import datetime
 
 BASE_URL = "http://127.0.0.1:8000"
 
@@ -15,7 +14,13 @@ def create_fake_drivers(n):
             "name": fake.name(),               
             "nationality": fake.country(),   
             "team": random.choice(["Mercedes", "Red Bull", "Ferrari", "McLaren", "Alpine", "Aston Martin"]),
-            "dob": fake.date_of_birth(minimum_age=18, maximum_age=45).isoformat()
+            "dob": fake.date_of_birth(minimum_age=18, maximum_age=45).isoformat(),
+            "details": {
+                "experience": random.choice(["rookie", "intermediate", "veteran"]),
+                "wins": random.randint(0, 50),
+                "podiums": random.randint(0, 100),
+                "bio": fake.text(max_nb_chars=200)
+            }
         }
 
         try:
