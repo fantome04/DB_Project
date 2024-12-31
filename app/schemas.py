@@ -20,9 +20,13 @@ class DriverUpdate(BaseModel):
     team: Optional[str] = None
     dob: Optional[date] = None
 
+class DriverPoints(BaseModel):
+    driver_id: int
+    total_points: int
+
 class Driver(DriverBase):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class CircuitBase(BaseModel):
     id: int
@@ -44,7 +48,7 @@ class CircuitUpdate(BaseModel):
 
 class Circuit(CircuitBase):
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class RaceBase(BaseModel):
     driver_id: int
@@ -63,6 +67,17 @@ class RaceUpdate(BaseModel):
     points: Optional[int] = None
     is_fastest_lap: Optional[bool] = None
 
+class RaceDetails(BaseModel):
+    driver_id: int
+    circuit_id: int
+    race_date: date
+    driver_name: str
+    circuit_name: str
+    place: int
+    points: int
+
+
+
 class Race(RaceBase):
     class Config:
-        orm_mode = True
+        from_attributes = True

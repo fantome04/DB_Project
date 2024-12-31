@@ -4,9 +4,9 @@ from .database import Base
 class Driver(Base):
     __tablename__ = "driver"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     number = Column(Integer)
-    name = Column(String(100), nullable=False)
+    name = Column(String(100))
     nationality = Column(String(50))
     team = Column(String(50))
     dob = Column(Date)
@@ -15,8 +15,8 @@ class Driver(Base):
 class Circuit(Base):
     __tablename__ = "circuit"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100))
     location = Column(String(100))
     length = Column(DECIMAL(10, 2))
     laps = Column(Integer)
