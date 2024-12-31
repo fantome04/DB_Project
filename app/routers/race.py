@@ -28,21 +28,21 @@ def create_race(race: schemas.RaceCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/{driver_id}/{circuit_id}/{race_date}", response_model=schemas.Race)
-def read_race(driver_id: int, circuit_id: int, race_date: str, db: Session = Depends(get_db)):
+def read_race(driver_id: int, circuit_id: int, race_date: str, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     try:
         race_date_parsed = datetime.strptime(race_date, "%Y-%m-%d").date()
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD.")
 
-    db_race = crud.get_race(db, driver_id, circuit_id, race_date_parsed)
+    db_race = crud.get_race(db, driver_id, circuit_id, race_date_parsed, skip=skip, limit=limit)
     if not db_race:
         raise HTTPException(status_code=404, detail="Race not found")
     return db_race
 
 
 @router.get("/", response_model=list[schemas.Race])
-def read_races(db: Session = Depends(get_db)):
-    races = crud.get_races(db)
+def read_races(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    races = crud.get_races(db, skip=skip, limit=limit)
     return races
 
 
