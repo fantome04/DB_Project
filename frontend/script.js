@@ -14,7 +14,7 @@ function showMessage(container, message, type) {
     `;
 }
 
-async function fetchData(endpoint, targetElement, renderCallback, skip = 0, limit = pageSize) {
+async function fetchData(endpoint, targetElement, renderCallback, skip = 0, limit = pageSize, callbackIfEmpty = null) {
     try {
         const response = await fetch(`${BASE_URL}${endpoint}?skip=${skip}&limit=${limit}`);
         if (!response.ok) {
@@ -25,9 +25,9 @@ async function fetchData(endpoint, targetElement, renderCallback, skip = 0, limi
         if (data.length === 0 && callbackIfEmpty) {
             callbackIfEmpty();
         } else {
-            renderCallback(data, targetElement);
+            renderCallback(data, targetElement, data.length);
         }
-        renderCallback(data, targetElement);
+
     } catch (error) {
         console.error("Error fetching data:", error);
     }
@@ -68,16 +68,16 @@ function renderList(data, targetElement, onDelete, onUpdate, paginationContainer
         targetElement.appendChild(listItem);
     });
 
-    renderPagination(paginationContainer, currentPage, loadPageCallback);
+    renderPagination(paginationContainer, currentPage, loadPageCallback, data.length);
 }
 
-function renderPagination(container, currentPage, loadPageCallback) {
+function renderPagination(container, currentPage, loadPageCallback, dataLength) {
     container.innerHTML = `
         <button class="btn btn-primary btn-sm me-2" ${currentPage <= 1 ? "disabled" : ""}>
             Previous
         </button>
         <span class="mx-2">Page ${currentPage}</span>
-        <button class="btn btn-primary btn-sm ms-2">
+        <button class="btn btn-primary btn-sm ms-2" ${dataLength < pageSize ? "disabled" : ""}>
             Next
         </button>
     `;
@@ -122,7 +122,6 @@ document.getElementById("driver-form").addEventListener("submit", async (e) => {
 async function loadDrivers(page = 1) {
     driverPage = page;
     const skip = (driverPage - 1) * pageSize;
-    let hasNextPage = true;
     
     fetchData(
         "/drivers",
