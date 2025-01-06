@@ -17,7 +17,7 @@ def get_db():
 def create_driver(driver: schemas.DriverCreate, db: Session = Depends(get_db)):
     existing_driver = crud.get_driver(db, driver.id)
     if existing_driver:
-        raise HTTPException(status_code=400, detail=f"Driver with number {driver.number} already exists.")
+        raise HTTPException(status_code=400, detail=f"Driver with id {driver.id} already exists.")
     
     return crud.create_driver(db, driver)
 

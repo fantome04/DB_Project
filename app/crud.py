@@ -86,7 +86,7 @@ def delete_circuit(db: Session, circuit_id: int):
         return db_circuit
 
 def create_race(db: Session, race: schemas.RaceCreate):
-    db_race = models.Race(**race.dict())
+    db_race = models.Race(**race.model_dump())
     db.add(db_race)
     db.commit()
     db.refresh(db_race)
