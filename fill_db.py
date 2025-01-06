@@ -7,6 +7,12 @@ BASE_URL = "http://127.0.0.1:8000"
 fake = Faker()
 
 def create_fake_drivers(n):
+    try:
+        if (n < 0):
+            raise 'argument is not valid'
+    except Exception as e:
+            print(f"[EXCEPTION] {e}")
+
     for i in range(n):
         driver_data = {
             "id": i,
@@ -34,6 +40,12 @@ def create_fake_drivers(n):
 
 
 def create_fake_circuits(n):
+    try:
+        if (n < 0):
+            raise 'argument is not valid'
+    except Exception as e:
+            print(f"[EXCEPTION] {e}")
+
     for i in range(n):
         circuit_data = {
             "id": i,
@@ -55,6 +67,12 @@ def create_fake_circuits(n):
 
 
 def create_fake_races(n):
+    try:
+        if (n < 0):
+            raise 'argument is not valid'
+    except Exception as e:
+            print(f"[EXCEPTION] {e}")
+            
     drivers_resp = requests.get(f"{BASE_URL}/drivers/")
     circuits_resp = requests.get(f"{BASE_URL}/circuits/")
     

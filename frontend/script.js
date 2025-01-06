@@ -22,6 +22,11 @@ async function fetchData(endpoint, targetElement, renderCallback, skip = 0, limi
             throw new Error(errorData.detail || "Unknown error");
         }
         const data = await response.json();
+        if (data.length === 0 && callbackIfEmpty) {
+            callbackIfEmpty();
+        } else {
+            renderCallback(data, targetElement);
+        }
         renderCallback(data, targetElement);
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -117,6 +122,8 @@ document.getElementById("driver-form").addEventListener("submit", async (e) => {
 async function loadDrivers(page = 1) {
     driverPage = page;
     const skip = (driverPage - 1) * pageSize;
+    let hasNextPage = true;
+    
     fetchData(
         "/drivers",
         document.getElementById("drivers-list"),

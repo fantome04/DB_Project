@@ -1,4 +1,4 @@
-Install the dependencies from the requirements.txt file and do alembic upgrade head.
+Install the dependencies from the requirements.txt file.
 
 In 'config.py' change the following lines accordingly:
 
@@ -7,6 +7,10 @@ In 'config.py' change the following lines accordingly:
     DB_PASSWORD = "password"
     DB_HOST = "localhost"
     DB_PORT = "port"
+
+Run `python init_db.py`
+
+Run `alembic upgrade head`
 
 To run the server run command `uvicorn app.main:app --reload`
 
